@@ -43,12 +43,8 @@ const displayIssues = (issues) => {
         </div>
 
         <div class="flex flex-wrap gap-2 mb-6">
-            <span class="flex items-center gap-1.5 px-2 py-1 rounded-3xl bg-red-100 text-red-500 text-[10px] font-bold">Bug</span>
-
-                <span class="flex items-center gap-1.5 px-2 py-1 rounded-3xl bg-amber-100 text-amber-500 text-[10px] font-bold">
-                
-                HELP WANTED
-            </span>
+            ${issue.labels?.[0] ? `<span class="flex items-center gap-1.5 px-2 py-1 rounded-3xl bg-red-100 text-red-500 text-[10px] font-bold">${issue.labels[0]}</span>` : ""}
+            ${issue.labels?.[1] ? `<span class="flex items-center gap-1.5 px-2 py-1 rounded-3xl bg-amber-100 text-amber-500 text-[10px] font-bold">${issue.labels[1]}</span>` : ""}
         </div>
 
         <div class="pt-4 border-t-2 border-gray-200">
@@ -112,44 +108,53 @@ issuesCard.addEventListener("click", async (event) => {
       >
         <!-- start  -->
         <header class="mb-6">
-            <h1 class="text-3xl font-bold text-slate-900 mb-4">Fix broken image uploads</h1>
+            <h1 class="text-3xl font-bold text-slate-900 mb-4">${issue.title}</h1>
             
             <div class="flex items-center gap-2 text-sm text-slate-400 font-medium">
-                <span class="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold">Opened</span>
+                <span class="${issue.status.toLowerCase() === "open" ? "bg-emerald-500" : "bg-[#A855F7]"} text-white px-3 py-1 rounded-full text-xs font-bold">${issue.status}</span>
                 <span>•</span>
-                <span>Opened by <span class="text-slate-500 font-semibold">Fahim Ahmed</span></span>
+                <span>Opened by <span class="text-slate-500 font-semibold">${issue.author}</span></span>
                 <span>•</span>
-                <span>22/02/2026</span>
+                <span>${issue.createdAt}</span>
             </div>
         </header>
 
         <div class="flex items-center gap-3 mb-8">
-            <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-50 text-red-500 text-[11px] font-extrabold tracking-wide uppercase">
+            ${
+              issue.labels?.[0]
+                ? `<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-50 text-red-500 text-[11px] font-extrabold tracking-wide uppercase">
                 <i class="fa-solid fa-circle-info"></i>
-                BUG
-            </span>
+                ${issue.labels[0]}
+            </span>`
+                : ""
+            }
 
-            <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-500 text-[11px] font-extrabold tracking-wide uppercase">
+            ${
+              issue.labels?.[1]
+                ? `<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-500 text-[11px] font-extrabold tracking-wide uppercase">
                <i class="fa-solid fa-circle-info"></i>
-                HELP WANTED
-            </span>
+                ${issue.labels[1]}
+            </span>`
+                : ""
+            }
+        
         </div>
 
         <div class="mb-10 text-slate-500 leading-relaxed text-lg">
-            The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.
+            ${issue.description}
         </div>
 
 <div class="bg-slate-50 rounded-2xl p-6 grid grid-cols-3 items-center mb-8">
     
     <div>
         <p class="text-slate-400 text-sm font-medium mb-1">Assignee:</p>
-        <p class="text-slate-900 font-bold text-lg">Fahim Ahmed</p>
+        <p class="text-slate-900 font-bold text-lg">${issue.assignee || "Unassigned"}</p>
     </div>
 
     <div class="text-center">
         <p class="text-slate-400 text-sm font-medium mb-2">Priority:</p>
         <span class="bg-red-500 text-white px-5 py-1.5 rounded-lg text-xs font-black tracking-widest uppercase shadow-sm">
-            HIGH
+            ${issue.priority}
         </span>
     </div>
 
