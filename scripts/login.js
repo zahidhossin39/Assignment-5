@@ -13,9 +13,11 @@ document.getElementById("login-btn").addEventListener("click",()=>{
         alert("login Success")
 
         window.location.assign("/home.html")
+        window.location.href = "home.html";
     }else{
         alert("Login Failed");
         return;
     }
 })
+
 
