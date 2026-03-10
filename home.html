@@ -65,7 +65,7 @@
                   <path d="m21 21-4.3-4.3"></path>
                 </g>
               </svg>
-              <input type="search" required placeholder="Search Issues..." />
+              <input id="search-input" type="search" required placeholder="Search Issues..." />
             </label>
           </div>
           <!-- button  -->
@@ -128,11 +128,18 @@
         <div class="border-t border-gray-100"></div>
       </div>
     </section>
+
+    <!-- loding  -->
+     <section id="loader" class="hidden flex items-center justify-center py-10">
+        <span class="loading loading-infinity loading-xl"></span>
+     </section>
+    
     <!-- Card-section  -->
     <section
       id="issues-card"
-      class="max-w-[1230px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-6 py-4 border-x-gray-200 border-x"
-    ></section>
+      class="max-w-[1230px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-6 py-4 border-x-gray-200 border-x">
+
+</section>
 
     <!-- Open the modal using ID.showModal() method -->
 

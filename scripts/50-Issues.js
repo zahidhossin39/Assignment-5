@@ -3,6 +3,8 @@ const btnAll = document.getElementById("btn-all");
 const btnOpen = document.getElementById("btn-open");
 const btnClosed = document.getElementById("btn-closed");
 const issueCount = document.getElementById("issue-count");
+const loader = document.getElementById("loader");
+const searchInput = document.getElementById("search-input");
 
 let allIssues = [];
 
@@ -59,12 +61,19 @@ const displayIssues = (issues) => {
 };
 
 const fetchIssues = async () => {
+  loader.classList.remove("hidden");
   const res = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   );
-  const data = await res.json();
-  allIssues = data.data;
-  displayIssues(allIssues);
+
+  if (res.ok) {
+    const data = await res.json();
+    allIssues = data.data;
+    displayIssues(allIssues);
+    loader.classList.add("hidden");
+  } else {
+    loader.classList.add("hidden");
+  }
 };
 
 // Helper to update button UI states
@@ -90,16 +99,36 @@ btnClosed.addEventListener("click", () => {
   displayIssues(allIssues.filter((i) => i.status.toLowerCase() === "closed"));
 });
 
+searchInput.addEventListener("keyup", async (event) => {
+  if (event.key === "Enter") {
+    const searchText = event.target.value.trim();
+    if (searchText === "") {
+      displayIssues(allIssues);
+      return;
+    }
+
+    loader.classList.remove("hidden");
+    const res = await fetch(
+      `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`,
+    );
+    const data = await res.json();
+    displayIssues(data.data || []);
+    loader.classList.add("hidden");
+  }
+});
+
 issuesCard.addEventListener("click", async (event) => {
   const card = event.target.closest(".issue-card");
   if (card) {
     const issueId = card.dataset.id;
+    loader.classList.remove("hidden");
 
     const res = await fetch(
       `https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`,
     );
     const data = await res.json();
     const issue = data.data;
+    loader.classList.add("hidden");
 
     const modal = document.getElementById("my_modal_5");
     modal.innerHTML = `
